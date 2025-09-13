@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIFF App Test</title>
+</head>
+<body>
+  <h1>LIFFアプリへようこそ！</h1>
+  <p>あなたのLINE表示名:</p>
+  <p id="displayName"></p>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  
+  <script>
+    // LIFFを初期化する
+    liff.init({
+      // ↓↓↓↓ ここにあなたのLIFF IDを貼り付けてください！ ↓↓↓↓
+      liffId: "2008011772-m1MB7kB8" 
+    })
+    .then(() => {
+      // 初期化が成功したら実行される部分
+      if (!liff.isLoggedIn()) {
+        // ユーザーがログインしていなければ、ログインさせる
+        liff.login();
+      } else {
+        // ログイン済みなら、プロフィール情報を取得する
+        liff.getProfile()
+          .then(profile => {
+            // プロフィール情報の中から、表示名(displayName)を取得して画面に表示
+            document.getElementById('displayName').textContent = profile.displayName;
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    })
+    .catch((err) => {
+      // 初期化に失敗した場合
+      console.error(err);
+    });
+  </script>
+</body>
+</html>
